@@ -5,143 +5,590 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Owera Software Supply</title>
-	<link rel="icon" type="image/svg+xml" href="../Content/BoatSky.svg">
-	<!-- Tailwind CSS CDN -->
-	<script src="https://cdn.tailwindcss.com"></script>
-	<!-- Font Awesome CDN -->
+	<meta name="description"
+		content="Owera Software Supply — Unreal Engine tools, gameplay systems, and user interfaces built in Cazenovia, New York.">
+	<link rel="icon" type="image/svg+xml" href="/Content/boatBlue.svg">
+	<meta name="theme-color" content="#202a44">
+
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="stylesheet"
+		href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 	<style>
-		.bg-navy {
-			background-color: #202A44;
+		/* =========================================================
+		   General Supply Ledger — Modern Industrial Heritage
+		   Strictly flat. Sharp corners. Ink on premium paper.
+		   ========================================================= */
+
+		:root {
+			--ledger-cream: #fffdf4;
+			--supply-blue: #202a44;
+			--supply-blue-deep: #0b152e;
+			--ink-black: #000000;
+			--ruling-gray: #d1d1d1;
+
+			--surface: #f9f9f9;
+			--surface-lowest: #ffffff;
+			--surface-container: #eeeeee;
+			--on-surface: #1b1b1b;
+			--on-surface-variant: #45464d;
+			--outline: #76777e;
+			--outline-variant: #c6c6ce;
+			--on-primary-container: #8791b0;
+
+			--unit: 4px;
+			--gutter: 24px;
+			--margin: 32px;
+			--ledger-row: 40px;
+
+			--frame-offset: 8px;
 		}
 
-		.text-navy {
-			color: #202A44;
+		*,
+		*::before,
+		*::after {
+			box-sizing: border-box;
+			border-radius: 0;
 		}
 
-		.hover\:text-navy:hover {
-			color: #202A44;
+		html {
+			-webkit-text-size-adjust: 100%;
 		}
 
-		.bg-dark-navy {
-			background-color: #161D2E;
+		body {
+			margin: 0;
+			background: var(--ledger-cream);
+			color: var(--on-surface);
+			font-family: "IBM Plex Sans", system-ui, sans-serif;
+			font-size: 16px;
+			line-height: 24px;
+			-webkit-font-smoothing: antialiased;
 		}
 
-		.bg-sky {
-			background-color: #08BEF0;
+		img,
+		svg {
+			display: block;
+			max-width: 100%;
 		}
 
-		.text-sky {
-			color: #08BEF0;
+		a {
+			color: inherit;
 		}
 
-		.border-sky {
-			border-color: #08BEF0;
+		/* ---------- Type scale ---------- */
+
+		h1,
+		h2,
+		h3,
+		h4 {
+			font-family: "Source Serif 4", Georgia, serif;
+			color: var(--on-surface);
+			margin: 0;
 		}
 
-		.border-sky-opacity {
-			border-color: rgba(8, 190, 240, 0.5);
+		.headline-xl {
+			font-size: 48px;
+			line-height: 56px;
+			font-weight: 700;
+			letter-spacing: -0.02em;
+		}
+
+		.headline-lg {
+			font-size: 32px;
+			line-height: 40px;
+			font-weight: 700;
+		}
+
+		.headline-md {
+			font-size: 24px;
+			line-height: 32px;
+			font-weight: 600;
+		}
+
+		.body-lg {
+			font-size: 18px;
+			line-height: 28px;
+		}
+
+		.label-caps {
+			font-family: "JetBrains Mono", ui-monospace, monospace;
+			font-size: 12px;
+			line-height: 16px;
+			font-weight: 500;
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+		}
+
+		.label-sm {
+			font-size: 13px;
+			line-height: 18px;
+			font-weight: 500;
+		}
+
+		.ref {
+			font-family: "JetBrains Mono", ui-monospace, monospace;
+			font-size: 12px;
+			line-height: 16px;
+			letter-spacing: 0.1em;
+			color: var(--on-surface-variant);
+		}
+
+		p {
+			margin: 0 0 16px;
+			color: var(--on-surface-variant);
+		}
+
+		p:last-child {
+			margin-bottom: 0;
+		}
+
+		/* ---------- Ledger grid ---------- */
+
+		.shell {
+			max-width: 1160px;
+			margin: 0 auto;
+			padding: 0 var(--margin);
+		}
+
+		.band {
+			padding: 72px 0;
+		}
+
+		.rule {
+			border: 0;
+			border-top: 1px solid var(--ruling-gray);
+			margin: 0;
+		}
+
+		.section-head {
+			margin-bottom: 32px;
+		}
+
+		.section-head .ref {
+			display: block;
+			margin-top: 8px;
+		}
+
+		/* Structural framing: a solid offset block, no blur, no gradient. */
+		.framed {
+			position: relative;
+			border: 2px solid var(--ink-black);
+			background: var(--ledger-cream);
+		}
+
+		.framed::after {
+			content: "";
+			position: absolute;
+			z-index: -1;
+			inset: var(--frame-offset) calc(-1 * var(--frame-offset)) calc(-1 * var(--frame-offset)) var(--frame-offset);
+			background: var(--ink-black);
+		}
+
+		/* ---------- Hero ---------- */
+
+		/* Letterhead composition: seal, then title, then the line of copy. */
+		.hero {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+			gap: 32px;
+			padding: 72px 0 80px;
+		}
+
+		.hero h1 {
+			max-width: 580px;
+			font-size: 40px;
+			line-height: 48px;
+		}
+
+		.hero p {
+			max-width: 52ch;
+		}
+
+		/* Supply Blue seal, no frame and no fill behind it. */
+		.seal {
+			width: 100%;
+			max-width: 360px;
+		}
+
+		/* Plate: an inverted Supply Blue panel. */
+		.plate {
+			background: var(--supply-blue);
+			display: flex;
+			flex-direction: column;
+		}
+
+		.plate__dataline {
+			display: flex;
+			justify-content: space-between;
+			gap: 16px;
+			padding: 10px 14px;
+			background: var(--supply-blue-deep);
+			border-top: 1px solid var(--on-primary-container);
+			color: var(--on-primary-container);
+		}
+
+		/* ---------- Cards ---------- */
+
+		.card {
+			display: flex;
+			flex-direction: column;
+			background: var(--surface-lowest);
+			border: 1px solid var(--ruling-gray);
+			border-top: 3px solid var(--supply-blue);
+			text-decoration: none;
+			color: inherit;
+		}
+
+		a.card:hover,
+		a.card:focus-visible {
+			border-color: var(--supply-blue);
+			border-top-color: var(--supply-blue);
+		}
+
+		/* Feature row: thumbnail left, dossier right. */
+		.card--feature {
+			display: grid;
+			grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+			align-items: stretch;
+		}
+
+		.card__tab {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 12px;
+			padding-bottom: 12px;
+			border-bottom: 1px solid var(--ruling-gray);
+			color: var(--on-surface-variant);
+		}
+
+		.card__tab i {
+			font-size: 14px;
+			color: var(--supply-blue);
+		}
+
+		.card__thumb {
+			aspect-ratio: 16 / 9;
+			background: var(--supply-blue);
+			overflow: hidden;
+			border-right: 1px solid var(--ruling-gray);
+		}
+
+		.card__thumb img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		.card__body {
+			padding: 28px 32px;
+			display: flex;
+			flex-direction: column;
+			gap: 16px;
+			flex: 1;
+		}
+
+		.card__body h3 {
+			font-size: 22px;
+			line-height: 30px;
+		}
+
+		.card__body p {
+			margin: 0;
+			flex: 1;
+		}
+
+		.tags {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 8px;
+		}
+
+		.tag {
+			border: 1px solid var(--outline-variant);
+			padding: 5px 8px;
+			color: var(--on-surface-variant);
+		}
+
+		/* ---------- About ---------- */
+
+		.about {
+			display: grid;
+			grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+			gap: 0;
+			background: var(--surface-lowest);
+			padding: 40px;
+		}
+
+		.about__col {
+			padding-right: 40px;
+		}
+
+		.about__col p {
+			margin-top: 24px;
+		}
+
+		.about__profile {
+			border-left: 1px solid var(--ruling-gray);
+			padding-left: 40px;
+			display: grid;
+			grid-template-columns: 160px minmax(0, 1fr);
+			gap: var(--gutter);
+			align-items: start;
+		}
+
+		.about__profile img {
+			width: 160px;
+			height: 160px;
+			object-fit: cover;
+			border: 2px solid var(--ink-black);
+			filter: grayscale(1) contrast(1.05);
+		}
+
+		.about__profile h3 {
+			font-size: 24px;
+			line-height: 32px;
+		}
+
+		.about__profile .ref {
+			display: block;
+			margin: 4px 0 16px;
+			padding-bottom: 16px;
+			border-bottom: 1px solid var(--ruling-gray);
+		}
+
+		/* ---------- Roots ---------- */
+
+		.roots {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+			gap: 64px;
+			align-items: center;
+		}
+
+		.plate__photo img {
+			width: 100%;
+			aspect-ratio: 4 / 3;
+			object-fit: cover;
+		}
+
+		/* ---------- Footer ---------- */
+
+		.colophon {
+			border-top: 2px solid var(--ink-black);
+			background: var(--ledger-cream);
+		}
+
+		.colophon .shell {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: space-between;
+			gap: var(--gutter);
+			padding-top: 28px;
+			padding-bottom: 28px;
+			color: var(--on-surface-variant);
+		}
+
+		.colophon nav {
+			display: flex;
+			flex-wrap: wrap;
+			gap: var(--gutter);
+		}
+
+		.colophon a {
+			text-decoration: none;
+		}
+
+		.colophon a:hover {
+			color: var(--supply-blue);
+			text-decoration: underline;
+		}
+
+		/* ---------- Mobile: 4-column fluid, 16px margins, keep the ruling ---------- */
+
+		@media (max-width: 900px) {
+			:root {
+				--margin: 16px;
+				--frame-offset: 6px;
+			}
+
+			.band {
+				padding: 48px 0;
+			}
+
+			.headline-xl {
+				font-size: 34px;
+				line-height: 42px;
+			}
+
+			.headline-lg {
+				font-size: 26px;
+				line-height: 34px;
+			}
+
+			.roots {
+				grid-template-columns: minmax(0, 1fr);
+				gap: 40px;
+			}
+
+			.hero {
+				gap: 24px;
+				padding: 48px 0 56px;
+			}
+
+			/* Beats the .hero h1 desktop size, which outranks .headline-xl. */
+			.hero h1 {
+				font-size: 30px;
+				line-height: 38px;
+			}
+
+			.seal {
+				max-width: 220px;
+			}
+
+			.card--feature {
+				grid-template-columns: minmax(0, 1fr);
+			}
+
+			.card__thumb {
+				border-right: 0;
+				border-bottom: 1px solid var(--ruling-gray);
+			}
+
+			.card__body {
+				padding: 20px;
+			}
+
+			.about {
+				grid-template-columns: minmax(0, 1fr);
+				padding: 24px;
+			}
+
+			.about__col {
+				padding-right: 0;
+				padding-bottom: 32px;
+				border-bottom: 1px solid var(--ruling-gray);
+			}
+
+			.about__profile {
+				border-left: 0;
+				padding-left: 0;
+				padding-top: 32px;
+				grid-template-columns: minmax(0, 1fr);
+			}
+
 		}
 	</style>
 </head>
 
-<body class="bg-dark-navy min-h-screen flex flex-col justify-start items-center">
-	<nav class="bg-navy text-white px-4 py-3 flex flex-col md:flex-row items-center justify-between w-full">
-		<a href="/index.html" class="flex-shrink-0 mb-4 md:mb-0 md:mr-4 flex justify-center w-full md:w-auto">
-			<img src="../Content/BoatWhite.svg" alt="White Owera Software Solutions Boat Icon"
-				class="w-12 h-12 md:w-[50px] md:h-[50px]" />
-		</a>
-		<div class="flex-1 flex justify-center w-full md:w-auto">
-			<ul class="flex flex-col md:flex-row md:space-x-6 space-y-2 md:space-y-0 w-full md:w-auto items-center">
-				<li class="w-full md:w-auto">
-					<a href="/index.html"
-						class="flex items-center gap-2 w-full justify-center px-3 py-2 rounded-lg border-2 border-white text-white bg-transparent font-semibold hover:bg-white hover:text-navy transition-colors">
-						<i class="fas fa-house group-hover:text-white"></i> Home
-					</a>
-				</li>
-				<li class="w-full md:w-auto">
-					<a href="/Pages/About.html"
-						class="flex items-center gap-2 w-full justify-center px-3 py-2 rounded-lg border-2 border-white text-white bg-transparent font-semibold hover:bg-white hover:text-navy transition-colors">
-						<i class="fas fa-user group-hover:text-white"></i> About
-					</a>
-				</li>
-				<li class="w-full md:w-auto">
-					<a href="/Pages/Projects.html"
-						class="flex items-center gap-2 w-full justify-center px-3 py-2 rounded-lg border-2 border-white text-white bg-transparent font-semibold hover:bg-white hover:text-navy transition-colors">
-						<i class="fas fa-folder group-hover:text-white"></i> Projects
-					</a>
-				</li>
-				<li class="w-full md:w-auto">
-					<a href="/Pages/Contact.html"
-						class="flex items-center gap-2 w-full justify-center px-3 py-2 rounded-lg border-2 border-white text-white bg-transparent font-semibold hover:bg-white hover:text-navy transition-colors">
-						<i class="fas fa-envelope group-hover:text-white"></i> Contact
-					</a>
-				</li>
-			</ul>
-		</div>
-	</nav>
+<body>
+	<main>
+		<!-- ===== Hero ===== -->
+		<section class="shell hero">
+			<img class="seal" src="/Content/logoWithBoatBlue.svg" alt="Owera Software Supply company seal">
+			<h1 class="headline-xl">Supplying Software for the Unreal Engine.</h1>
+			<p class="body-lg">Industrial-grade tools, gameplay systems, and interfaces engineered with
+				small-town reliability. Built to spec, delivered as a plugin, and made to last.</p>
+		</section>
 
-	<section class="flex flex-col items-center justify-center pt-4 pb-12 px-2 sm:px-4">
-		<img src="../Content/OSS_LogoWhiteNonllc.svg" alt="White Owera Software Solutions Logo"
-			class="w-56 sm:w-72 md:w-96" />
-		<p class="text-lg sm:text-xl text-gray-300 mb-8 mt-4 max-w-xl text-center">Empowering your next Unreal Engine 5
-			project with innovative software solutions tailored to your needs.</p>
-		<div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center items-center">
-			<a href="/Pages/Contact.html"
-				class="flex items-center gap-2 px-4 py-2 rounded-lg border-2 border-sky text-white bg-sky text-base sm:text-lg font-semibold w-full sm:w-auto justify-center hover:bg-sky-500 transition-colors">
-				Get Started <i class="fa-solid fa-arrow-right"></i>
+		<hr class="rule">
+
+		<!-- ===== Projects ===== -->
+		<section class="shell band" id="projects">
+			<div class="section-head">
+				<h2 class="headline-lg">Projects</h2>
+			</div>
+			<a class="card card--feature" href="https://youtu.be/8HMAeZydbfw" target="_blank" rel="noopener">
+				<div class="card__thumb">
+					<img src="https://img.youtube.com/vi/8HMAeZydbfw/maxresdefault.jpg" alt="" loading="lazy">
+				</div>
+				<div class="card__body">
+					<div class="card__tab label-caps">
+						<span>ID: PRJ-001</span>
+						<i class="fa-solid fa-screwdriver-wrench" aria-hidden="true"></i>
+					</div>
+					<h3>LLM Dialog Generator</h3>
+					<p>LLM powered dialog generator that can automatically export dialog into a Data Table for easy
+						in game use.</p>
+					<div class="tags">
+						<span class="tag label-caps">C++</span>
+						<span class="tag label-caps">Slate</span>
+					</div>
+				</div>
 			</a>
-			<a href="/Pages/Projects.html"
-				class="flex items-center px-4 py-2 rounded-lg border-2 border-white text-white bg-transparent text-base sm:text-lg font-semibold hover:text-navy hover:bg-white hover:border-white w-full sm:w-auto justify-center">
-				View Projects
-			</a>
+		</section>
+
+		<hr class="rule">
+
+		<!-- ===== About ===== -->
+		<section class="shell band" id="about">
+			<div class="framed about">
+				<div class="about__col">
+					<h2 class="headline-lg">About Us</h2>
+					<p>We approach software development as a trade. The mission is to provide the digital equivalent
+						of heavy-duty hardware: tools that don't break, interfaces that don't confuse, and systems
+						that stand the test of time.</p>
+					<p>Every task — whether a small utility plugin or a foundational gameplay feature — gets the same
+						dedication and attention to detail, developed to specification without compromise.</p>
+				</div>
+				<div class="about__profile">
+					<img src="/Content/NolanHeadshot.jpg" alt="Nolan Willis">
+					<div>
+						<h3>Nolan Willis</h3>
+						<span class="ref">FOUNDER &amp; ENGINEER</span>
+						<p>An Unreal Engine developer with an M.S. in Game Programming and several years spent
+							building editor tooling, gameplay systems, and UI. Started on a beat-up Nintendo 64,
+							kept going through a Computer Science undergrad, and never stopped asking how games
+							work.</p>
+						<p>The goal is to help bring stories to life: tools that streamline workflows, systems that
+							expand what a game can do, and interfaces players actually want to use.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<hr class="rule">
+
+		<!-- ===== Roots ===== -->
+		<section class="shell band" id="roots">
+			<div class="roots">
+				<div>
+					<div class="section-head">
+						<h2 class="headline-lg">Our Cazenovia Roots</h2>
+					</div>
+					<p>Owera Software Supply takes its name from Owera Point Road, a street on the north end of
+						Cazenovia Lake. It is where a lot of time was spent growing up, and it is still home today.</p>
+					<p>Born on the shores of that lake, the company draws on the enduring quality of local hardware and
+						the precision of nautical engineering. Software should be as dependable as a well-crafted tool.
+					</p>
+				</div>
+				<figure class="framed plate plate__photo" style="margin: 0;">
+					<img src="/Content/CazLake.jpg" alt="The north end of Cazenovia Lake viewed from Owera Point">
+					<figcaption class="plate__dataline label-caps">
+						<span>Loc: 42.9309&deg; N, 75.8594&deg; W</span>
+						<span>Cazenovia Lake</span>
+					</figcaption>
+				</figure>
+			</div>
+		</section>
+
+	</main>
+
+	<footer class="colophon">
+		<div class="shell label-caps">
+			<nav aria-label="Footer">
+				<a href="#about">About</a>
+				<a href="#roots">Cazenovia Roots</a>
+			</nav>
+			<span>&copy; 2026 Owera Software Supply Co. | Cazenovia, NY</span>
 		</div>
-	</section>
+	</footer>
 
-	<section class="flex flex-col items-center justify-center py-12 px-2 sm:px-4 bg-navy gap-8 w-full">
-		<h1 class="text-white text-3xl sm:text-3xl md:text-4xl font-semibold">Services</h1>
-		<div class="flex flex-col md:flex-row items-center md:space-x-8 space-y-8 md:space-y-0 w-full justify-center">
-			<div
-				class="flex flex-col gap-4 max-w-sm w-full bg-dark-navy py-6 px-4 sm:px-8 border border-sky-opacity rounded-lg">
-				<i class="fa-solid fa-code text-sky text-3xl"></i>
-				<h1 class="text-white text-xl sm:text-2xl">Tool Development</h1>
-				<p class="text-gray-300 text-base sm:text-lg">Custom editor tools to streamline
-					your workflow, enhancing productivity and enabling your team to build faster.</p>
-			</div>
-
-			<div
-				class="flex flex-col gap-4 max-w-sm w-full bg-dark-navy py-6 px-4 sm:px-8 border border-sky-opacity rounded-lg">
-				<i class="fa-solid fa-gamepad text-sky text-3xl"></i>
-				<h1 class="text-white text-xl sm:text-2xl">Gameplay Systems</h1>
-				<p class="text-gray-300 text-base sm:text-lg">Robust and scalable gameplay mechanics implemented in C++
-					or Blueprints.</p>
-			</div>
-
-			<div
-				class="flex flex-col gap-4 max-w-sm w-full bg-dark-navy py-6 px-4 sm:px-8 border border-sky-opacity rounded-lg">
-				<i class="fa-solid fa-palette text-sky text-3xl"></i>
-				<h1 class="text-white text-xl sm:text-2xl">UI Development</h1>
-				<p class="text-gray-300 text-base sm:text-lg">Responsive user interfaces built with UMG or Slate.
-					Optimized for performance
-					and user experience.</p>
-			</div>
-		</div>
-	</section>
-
-	<!-- <section class="flex flex-col items-center justify-center py-12 px-2 sm:px-4 gap-8 w-full">
-		<h1 class="text-white text-2xl sm:text-4xl font-semibold">How It Works</h1>
-		<img src="../Content/DevelopmentRoadmap.svg" alt="White Owera Software Solutions Logo" class="w-max" />
-	</section>-->
-
-	<section class="flex flex-col items-center justify-center py-12 px-2 sm:px-4 gap-8 w-full pb-24">
-		<h1 class="text-white text-2xl sm:text-4xl text-center font-semibold">Ready to Start Your Project?</h1>
-		<p class="text-gray-300 text-lg sm:text-2xl text-center">Let's discuss how I can bring your Unreal Engine vision
-			into reality.</p>
-		<a href="/Pages/Contact.html"
-			class="flex items-center px-4 py-2 rounded-lg border-2 border-white text-navy bg-white text-base sm:text-lg font-semibold">
-			Contact Me
-		</a>
-	</section>
 </body>
 
 </html>

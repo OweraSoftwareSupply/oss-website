@@ -9,37 +9,5 @@
       "Slate"
     ],
     "videoLink": "https://youtu.be/8HMAeZydbfw"
-  },
-  {
-    "id": "map-editor",
-    "serviceType": "UI Development",
-    "title": "Map Editor",
-    "description": "Drag-and-drop in game map editor that can be easily modified into an inventory or larger map editing system. ",
-    "skills": [
-      "UMG",
-      "Blueprint"
-    ],
-    "videoLink": "https://youtu.be/P8qKaDFLarw"
-  },
-  {
-    "id": "space-ship-controller",
-    "serviceType": "Gameplay System",
-    "title": "Space Ship Controller",
-    "description": "A physics based space ship controller designed for mouse and keyboard use.",
-    "skills": [
-      "Blueprint"
-    ],
-    "videoLink": "https://youtu.be/H6JoUkRgu7o"
-  },
-  {
-    "id": "flow-field-navigation",
-    "serviceType": "Gameplay System",
-    "title": "Flow Field Navigation System",
-    "description": "System for creating flow fields for AI navigation. Features dynamic flow fields that are updated every frame and static flow fields that are saved as DataAssets.",
-    "skills": [
-      "C++",
-      "AI"
-    ],
-    "videoLink": "https://youtu.be/YOFQsDXGud8"
   }
 ]
